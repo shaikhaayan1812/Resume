@@ -97,20 +97,6 @@
             line-height: 1.7;
             overflow-x: hidden;
             min-height: 100vh;
-            cursor: none;
-        }
-
-        .cursor {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--primary);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.1s ease;
-            box-shadow: 0 0 15px var(--primary), 0 0 30px var(--primary);
-            animation: cursorPulse 1.5s infinite;
         }
 
         /* Animated Background */
@@ -847,9 +833,6 @@
     </style>
 </head>
 <body>
-    <!-- Custom Cursor -->
-    <div class="cursor" id="cursor"></div>
-
     <!-- Theme Toggle -->
     <div class="theme-toggle">
         <button class="theme-btn purple active" onclick="setTheme('')" title="Purple Theme"></button>
@@ -1277,14 +1260,6 @@
         if (savedTheme) {
             setTheme(savedTheme);
         }
-
-        // Custom Cursor
-        const cursor = document.getElementById('cursor');
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX - 10 + 'px';
-            cursor.style.top = e.clientY - 10 + 'px';
-        });
 
         // Typewriter Effect
         const text = "Ayan Shaikh";
