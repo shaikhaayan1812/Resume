@@ -125,27 +125,6 @@
             line-height: 1.7;
             overflow-x: hidden;
             min-height: 100vh;
-            cursor: none;
-        }
-
-        .cursor {
-            width: 15px;
-            height: 15px;
-            background: var(--primary);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.1s ease, opacity 0.2s ease;
-            box-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary);
-            transform: translate(-50%, -50%);
-        }
-
-        .cursor.hovered {
-            transform: translate(-50%, -50%) scale(2);
-            background: transparent;
-            border: 2px solid var(--primary);
-            box-shadow: 0 0 30px var(--primary);
         }
 
         /* Animated Background */
@@ -975,14 +954,6 @@
     </style>
 </head>
 <body>
-    <!-- Custom Cursor -->
-    <div class="cursor" id="cursor"></div>
-
-    <!-- Return to Top -->
-    <a href="#home" class="return-top" title="Return to Top">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-
     <!-- Theme Toggle -->
     <div class="theme-toggle">
         <button class="theme-btn purple active" onclick="setTheme('')" title="Purple Theme"></button>
@@ -1410,34 +1381,6 @@
                     behavior: 'smooth'
                 });
             });
-        // Smooth Cursor
-        const cursor = document.getElementById('cursor');
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-
-        function animateCursor() {
-            const dx = mouseX - cursorX;
-            const dy = mouseY - cursorY;
-            
-            cursorX += dx * 0.15;
-            cursorY += dy * 0.15;
-            
-            cursor.style.left = cursorX + 'px';
-            cursor.style.top = cursorY + 'px';
-            
-            requestAnimationFrame(animateCursor);
-        }
-        animateCursor();
-
-        // Hover effect on links
-        document.querySelectorAll('a, button, .skill-item, .project-card, .card, .education-card, .contact-card, .language-card').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
         });
 
         // Add photo when page loads
