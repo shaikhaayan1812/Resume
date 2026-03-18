@@ -17,6 +17,69 @@
             --border: rgba(255, 255, 255, 0.08);
         }
         
+        [data-theme="ocean"] {
+            --primary: #0ea5e9;
+            --secondary: #06b6d4;
+            --accent: #f43f5e;
+            --accent2: #10b981;
+            --dark: #0c1929;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.06);
+        }
+        
+        [data-theme="sunset"] {
+            --primary: #f97316;
+            --secondary: #ea580c;
+            --accent: #dc2626;
+            --accent2: #fbbf24;
+            --dark: #1a0f0a;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.06);
+        }
+        
+        [data-theme="forest"] {
+            --primary: #22c55e;
+            --secondary: #16a34a;
+            --accent: #84cc16;
+            --accent2: #14b8a6;
+            --dark: #0a1f0d;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.06);
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+            background: var(--card-bg);
+            padding: 10px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+        
+        .theme-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-btn:hover, .theme-btn.active {
+            transform: scale(1.15);
+            border-color: white;
+        }
+        
+        .theme-btn.purple { background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899); }
+        .theme-btn.ocean { background: linear-gradient(135deg, #0ea5e9, #06b6d4, #10b981); }
+        .theme-btn.sunset { background: linear-gradient(135deg, #f97316, #ea580c, #fbbf24); }
+        .theme-btn.forest { background: linear-gradient(135deg, #22c55e, #16a34a, #84cc16); }
+        
         * {
             margin: 0;
             padding: 0;
@@ -759,6 +822,14 @@
     </style>
 </head>
 <body>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <button class="theme-btn purple active" onclick="setTheme('')" title="Purple Theme"></button>
+        <button class="theme-btn ocean" onclick="setTheme('ocean')" title="Ocean Theme"></button>
+        <button class="theme-btn sunset" onclick="setTheme('sunset')" title="Sunset Theme"></button>
+        <button class="theme-btn forest" onclick="setTheme('forest')" title="Forest Theme"></button>
+    </div>
+
     <!-- Animated Background -->
     <div class="bg-animation">
         <div class="floating-shapes">
@@ -1165,5 +1236,18 @@
                 profileImg.innerHTML = '';
             }
         });
-</body>
+
+        function setTheme(themeName) {
+            document.documentElement.setAttribute('data-theme', themeName);
+            localStorage.setItem('theme', themeName);
+            document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+            const btnClass = themeName === '' ? 'purple' : themeName;
+            document.querySelector('.theme-btn.' + btnClass).classList.add('active');
+        }
+
+        const savedTheme = localStorage.getItem('theme') || '';
+        if (savedTheme) {
+            setTheme(savedTheme);
+        }
+    </script></body>
 </html>
