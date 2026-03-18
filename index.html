@@ -228,6 +228,17 @@
             50% { background-position: 100% 50%; }
         }
 
+        .cursor {
+            display: inline-block;
+            animation: blink 1s infinite;
+            color: var(--primary);
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
         .hero .subtitle {
             font-size: 1.5em;
             color: var(--primary);
@@ -846,7 +857,7 @@
                 <div class="profile-image" id="profileImg" style="background-image: url('ayan.jpg'); background-size: cover; background-position: center;">
                 </div>
             </div>
-            <h1>AYAN SHAIKH</h1>
+            <h1><span id="typewriter"></span><span class="cursor">|</span></h1>
             <p class="subtitle">Full Stack Developer & BCA Student</p>
             <p class="tagline">Building Digital Experiences with Code</p>
             <div class="hero-btns">
@@ -1249,5 +1260,20 @@
         if (savedTheme) {
             setTheme(savedTheme);
         }
+
+        // Typewriter Effect
+        const text = "Ayan Shaikh";
+        const speed = 150;
+        let i = 0;
+        
+        function typeWriter() {
+            if (i < text.length) {
+                document.getElementById("typewriter").innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, speed);
+            }
+        }
+        
+        window.onload = typeWriter;
     </script></body>
 </html>
