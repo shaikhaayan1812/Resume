@@ -79,47 +79,32 @@
             position: fixed;
             pointer-events: none;
             z-index: 9999;
-            box-shadow: 0 0 10px var(--neon-primary), 0 0 20px var(--neon-primary), 0 0 40px var(--neon-primary);
-            transition: transform 0.1s ease, background 0.3s ease, width 0.3s ease, height 0.3s ease;
+            box-shadow: 0 0 10px var(--neon-primary);
         }
 
         .cursor-ring {
             width: 40px;
             height: 40px;
-            border: 2px solid var(--neon-primary);
+            border: 1px solid var(--neon-primary);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
             z-index: 9998;
-            transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, background 0.3s ease, border-radius 0.3s ease;
+            transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
             transform: translate(-50%, -50%);
         }
 
-        .cursor-trail {
-            position: fixed;
-            pointer-events: none;
-            z-index: 9997;
-            width: 6px;
-            height: 6px;
-            background: var(--neon-secondary);
-            border-radius: 50%;
-            opacity: 0;
-            box-shadow: 0 0 10px var(--neon-secondary);
-        }
-
         .cursor-dot.hover {
-            width: 15px;
-            height: 15px;
+            width: 12px;
+            height: 12px;
             background: var(--neon-secondary);
-            box-shadow: 0 0 15px var(--neon-secondary), 0 0 30px var(--neon-secondary), 0 0 50px var(--neon-secondary);
+            box-shadow: 0 0 15px var(--neon-secondary);
         }
 
         .cursor-ring.hover {
-            width: 60px;
-            height: 60px;
+            width: 55px;
+            height: 55px;
             border-color: var(--neon-secondary);
-            background: rgba(255, 0, 255, 0.1);
-            border-radius: 12px;
         }
 
         /* Cyberpunk Grid Background */
@@ -2007,50 +1992,19 @@
                 document.getElementById('viewCount').textContent = '000';
             });
 
-        // Custom Cursor with Particle Trails
+        // Simple Custom Cursor
         const cursorDot = document.getElementById('cursorDot');
         const cursorRing = document.getElementById('cursorRing');
         
         let mouseX = 0, mouseY = 0;
         let ringX = 0, ringY = 0;
-        let isHovering = false;
         
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
             cursorDot.style.left = (mouseX - 4) + 'px';
             cursorDot.style.top = (mouseY - 4) + 'px';
-            
-            // Create particle trail
-            if (Math.random() > 0.6) {
-                createTrailParticle(mouseX, mouseY);
-            }
         });
-        
-        function createTrailParticle(x, y) {
-            const particle = document.createElement('div');
-            particle.style.cssText = `
-                position: fixed;
-                left: ${x}px;
-                top: ${y}px;
-                width: ${Math.random() * 4 + 2}px;
-                height: ${Math.random() * 4 + 2}px;
-                background: var(--neon-secondary);
-                border-radius: 50%;
-                pointer-events: none;
-                z-index: 9996;
-                box-shadow: 0 0 ${Math.random() * 10 + 5}px var(--neon-secondary);
-                transition: all ${Math.random() * 0.5 + 0.5}s ease-out;
-            `;
-            document.body.appendChild(particle);
-            
-            setTimeout(() => {
-                particle.style.opacity = '0';
-                particle.style.transform = `translate(${(Math.random() - 0.5) * 30}px, ${Math.random() * 30 + 10}px) scale(0)`;
-            }, 10);
-            
-            setTimeout(() => particle.remove(), 1000);
-        }
         
         function animateRing() {
             ringX += (mouseX - ringX) * 0.15;
@@ -2061,34 +2015,18 @@
         }
         animateRing();
         
-        // Enhanced hover effect with magnetic pull
         const hoverElements = document.querySelectorAll('a, button, .btn-neon, .cyber-card, .project-card, .contact-card, .education-card, .stat-neon, .skill-tag, .language-card, .theme-btn');
         hoverElements.forEach(el => {
             el.addEventListener('mouseenter', () => {
                 cursorDot.classList.add('hover');
                 cursorRing.classList.add('hover');
-                isHovering = true;
             });
             el.addEventListener('mouseleave', () => {
                 cursorDot.classList.remove('hover');
                 cursorRing.classList.remove('hover');
-                isHovering = false;
-            });
-            
-            // Magnetic effect on hover
-            el.addEventListener('mousemove', (e) => {
-                const rect = el.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                cursorRing.style.transform = `translate(calc(-50% + ${x * 0.2}px), calc(-50% + ${y * 0.2}px))`;
-            });
-            
-            el.addEventListener('mouseleave', () => {
-                cursorRing.style.transform = 'translate(-50%, -50%)';
             });
         });
         
-        // Hide cursor when leaving window
         document.addEventListener('mouseleave', () => {
             cursorDot.style.opacity = '0';
             cursorRing.style.opacity = '0';
