@@ -34,6 +34,45 @@
             color: #e0e0e0;
             line-height: 1.8;
             overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--neon-primary);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: 0 0 10px var(--neon-primary), 0 0 20px var(--neon-primary), 0 0 40px var(--neon-primary);
+            transition: transform 0.1s ease, background 0.3s ease;
+        }
+
+        .cursor-ring {
+            width: 35px;
+            height: 35px;
+            border: 2px solid var(--neon-primary);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor-dot.hover {
+            transform: scale(2);
+            background: var(--neon-secondary);
+            box-shadow: 0 0 10px var(--neon-secondary), 0 0 20px var(--neon-secondary), 0 0 40px var(--neon-secondary);
+        }
+
+        .cursor-ring.hover {
+            width: 50px;
+            height: 50px;
+            border-color: var(--neon-secondary);
+            background: rgba(255, 0, 255, 0.1);
         }
 
         /* Cyberpunk Grid Background */
@@ -1220,6 +1259,9 @@
                 width: 220px;
                 height: 220px;
             }
+
+            body { cursor: auto; }
+            .cursor-dot, .cursor-ring { display: none; }
         }
     </style>
 </head>
@@ -1227,6 +1269,10 @@
     <div class="cyber-grid"></div>
     <div class="scanlines"></div>
     <div id="particles"></div>
+    
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
 
     <!-- Navbar -->
     <nav class="navbar" id="navbar">
@@ -1758,6 +1804,52 @@
             .catch(() => {
                 document.getElementById('viewCount').textContent = '000';
             });
+
+        // Custom Cursor
+        const cursorDot = document.getElementById('cursorDot');
+        const cursorRing = document.getElementById('cursorRing');
+        
+        let mouseX = 0, mouseY = 0;
+        let ringX = 0, ringY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+        });
+        
+        function animateRing() {
+            ringX += (mouseX - ringX) * 0.15;
+            ringY += (mouseY - ringY) * 0.15;
+            cursorRing.style.left = ringX + 'px';
+            cursorRing.style.top = ringY + 'px';
+            requestAnimationFrame(animateRing);
+        }
+        animateRing();
+        
+        // Hover effect on interactive elements
+        const hoverElements = document.querySelectorAll('a, button, .btn-neon, .cyber-card, .project-card, .contact-card, .education-card, .stat-neon, .skill-tag, .language-card, .theme-btn');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorDot.classList.add('hover');
+                cursorRing.classList.add('hover');
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorDot.classList.remove('hover');
+                cursorRing.classList.remove('hover');
+            });
+        });
+        
+        // Hide cursor when leaving window
+        document.addEventListener('mouseleave', () => {
+            cursorDot.style.opacity = '0';
+            cursorRing.style.opacity = '0';
+        });
+        document.addEventListener('mouseenter', () => {
+            cursorDot.style.opacity = '1';
+            cursorRing.style.opacity = '1';
+        });
     </script>
 </body>
 </html>
