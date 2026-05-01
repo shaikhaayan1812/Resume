@@ -171,8 +171,6 @@
             padding: 20px 50px;
             background: transparent;
             backdrop-filter: none;
-            border-bottom: 1px solid var(--neon-primary);
-            border-image: linear-gradient(90deg, transparent, var(--neon-primary), var(--neon-secondary), var(--neon-primary), transparent) 1;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -180,15 +178,7 @@
         }
 
         .navbar::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--neon-primary), var(--neon-secondary), var(--neon-primary), transparent);
-            box-shadow: 0 0 15px var(--neon-primary), 0 0 30px var(--neon-secondary);
-            animation: borderPulse 3s infinite;
+            display: none;
         }
 
         @keyframes borderPulse {
